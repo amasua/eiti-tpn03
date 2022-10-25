@@ -1,5 +1,5 @@
 MODULES = 
 BOARD ?= edu-ciaa-nxp
-MUJU ?= ../muju
+MUJU ?= ~/estudiante/proyectos/muju
 
 include $(MUJU)/modules/base/makefile
