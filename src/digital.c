@@ -43,7 +43,7 @@
  ** |----|------------|-------------|-----------------------------------------|
  ** |  1 | 2022.08.27 | jcalvo      | Version inicial del archivo             |
  **
- ** @defgroup plantilla Plantilals de Archivos
+ ** @defgroup plantilla Plantillas de Archivos
  ** @brief Plantillas de archivos normalizadas
  ** @{
  */
