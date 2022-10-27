@@ -43,6 +43,8 @@
 
 /* === Macros definitions ====================================================================== */
 
+#define CHIP_LPC43XX
+
 #define LED_R_PORT 2
 #define LED_R_PIN 0
 #define LED_R_FUNC SCU_MODE_FUNC4
