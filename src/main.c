@@ -43,7 +43,7 @@
 
 /* === Macros definitions ====================================================================== */
 
-#define CHIP_LPC43XX
+/* #define CHIP_LPC43XX */
 
 #define LED_R_PORT 2
 #define LED_R_PIN 0
@@ -124,6 +124,7 @@ int main(void) {
     int divisor  = 0;
     bool current_state, last_state = false;
 
+    /*Estas son salidas*/
     /*configuro LED Rojo*/
     Chip_SCU_PinMuxSet(LED_R_PORT, LED_R_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_R_FUNC);
     Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_R_GPIO, LED_R_BIT, false);
