@@ -126,8 +126,11 @@ int main(void) {
 
     /*Estas son salidas*/
     /*configuro LED Rojo*/
+    /*configura el terminal y le asigna una fn de entrada y salida digital*/
     Chip_SCU_PinMuxSet(LED_R_PORT, LED_R_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_R_FUNC);
+    /*esta pone el bit en cero, lo apaga, arranca apagado*/
     Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_R_GPIO, LED_R_BIT, false);
+    /*esta pone ese bit como salida*/
     Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_R_GPIO, LED_R_BIT, true);
 
     /*configuro LED Verde*/
@@ -172,12 +175,14 @@ int main(void) {
     Chip_SCU_PinMuxSet(TEC_4_PORT, TEC_4_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | TEC_4_FUNC);
     Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, TEC_4_GPIO, TEC_4_BIT, false);
 
-    digital_output_t led_azul = DigitalOutputCreate(LED_B_GPIO, LED_B_BIT);
+    /* digital_output_t led_azul = DigitalOutputCreate(LED_B_GPIO, LED_B_BIT);
     digital_output_t led_uno = DigitalOutputCreate(LED_1_GPIO, LED_1_BIT);
     digital_output_t led_dos = DigitalOutputCreate(LED_2_GPIO, LED_2_BIT);
-    digital_output_t led_tres = DigitalOutputCreate(LED_3_GPIO, LED_3_BIT);
+    digital_output_t led_tres = DigitalOutputCreate(LED_3_GPIO, LED_3_BIT);*/
 
     while (true) {
+        //La funcion siguiente muestra el estado de la tecla 1
+        //Cada vez que paso ejecuta el codigo
         if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT) == 0) {
             //DigitalOutputActivate(led_azul);
             Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, true);
@@ -186,6 +191,9 @@ int main(void) {
             Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, false);
         }
 
+        // detecto el momento exacto en que presiono la tecla y ejecuto
+        // una vez el código dentro del if
+        // este patron de programación permite detectar cambios
         current_state = (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_2_GPIO, TEC_2_BIT) == 0);
         if ((current_state) && (!last_state)) {
             //DigitalOutputToggle(led_uno);
@@ -193,6 +201,9 @@ int main(void) {
         }
         last_state = current_state;
 
+
+        // El siguiente bloque (2 if) muestran como al apretar la tecla 3 prende led 2
+        // y al apretar tecla 4 apaga led 2
         if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_3_GPIO, TEC_3_BIT) == 0) {
             //DigitalOutputActivate(led_dos);
             Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT, true);
@@ -202,13 +213,17 @@ int main(void) {
             Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT, false);
         }
 
+        //Este bloque es un divisor para hacer parpadear el led 3
+        //cuando divisor vale 5 lo prende, cambia a 0 y cuando vuelve a 5 otra vez lo apaga
         divisor++;
-        if (divisor == 5) {
+        if (divisor == 10) {
             divisor = 0;
-            DigitalOutputToggle(led_tres);
-            //Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT);
+            //DigitalOutputToggle(led_tres);
+
+            Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT);
         }
 
+        // esto es un delay por los rebotes de teclas
         for (int index = 0; index < 100; index++) {
             for (int delay = 0; delay < 25000; delay++) {
                 __asm("NOP");
