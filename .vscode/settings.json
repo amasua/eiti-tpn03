@@ -1,0 +1,11 @@
+{
+    "editor.wordWrap": "on",
+    "C_Cpp.errorSquiggles": "Enabled",
+    "files.associations": {
+        "stdbool.h": "c",
+        "chip.h": "c",
+        "sys_config.h": "c",
+        "cmsis.h": "c"
+    }
+
+}
