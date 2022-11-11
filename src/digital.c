@@ -3,6 +3,10 @@
  * Copyright 2022, Julio Calvo <jcalvo@dirinfo.unt.edu.ar>
  * All rights reserved.
  *
+ * =============================================================
+ * === TODO LO QUE DEPENDE DEL FABRICANTE VA EN ESTE ARCHIVO ===
+ * =============================================================
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
@@ -61,10 +65,12 @@
 
 /* === Declaraciones de tipos de datos privados ============================ */
 
+typedef struct digital_output_s * digital_output_t;
+
 struct digital_output_s 
 {
     uint8_t gpio;
-    uint8_t bit;
+    uint8_t pin;
     bool allocated;
 };
 
@@ -96,32 +102,32 @@ digital_output_t DigitalOutputAllocate(void)
 }
 /* === Definiciones de funciones publicas ================================== */
 
-digital_output_t DigitalOutputCreate(uint8_t gpio, uint8_t bit)
+digital_output_t DigitalOutputCreate(uint8_t gpio, uint8_t pin)
 {
     digital_output_t output = DigitalOutputAllocate();
 
     if (output)
     {
         output->gpio = gpio;
-        output->bit = bit;
-        Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->bit, false);
-        Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, output->gpio, output->bit, true);
+        output->pin = pin;
+        Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->pin, false);
+        Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, output->gpio, output->pin, true);
     }
 
     return output;
 }
 
 void DigitalOutputActivate(digital_output_t output){
-    Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->bit, true);
+    Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->pin, true);
 }
 
 void DigitalOutputDeactivate(digital_output_t output){
-    Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->bit, false);
+    Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->pin, false);
 }
 
 
 void DigitalOutputToggle(digital_output_t output){
-    Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, output->gpio, output->bit);
+    Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, output->gpio, output->pin);
     //Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT)
 }
 
