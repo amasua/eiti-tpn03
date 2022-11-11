@@ -70,7 +70,7 @@ typedef struct digital_output_s * digital_output_t;
 struct digital_output_s 
 {
     uint8_t gpio;
-    uint8_t pin;
+    uint8_t bit;
     bool allocated;
 };
 
@@ -102,32 +102,34 @@ digital_output_t DigitalOutputAllocate(void)
 }
 /* === Definiciones de funciones publicas ================================== */
 
-digital_output_t DigitalOutputCreate(uint8_t gpio, uint8_t pin)
+digital_output_t DigitalOutputCreate(uint8_t gpio, uint8_t bit)
 {
     digital_output_t output = DigitalOutputAllocate();
 
     if (output)
     {
         output->gpio = gpio;
-        output->pin = pin;
-        Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->pin, false);
-        Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, output->gpio, output->pin, true);
+        output->bit = bit;
+        Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->bit, false);
+        Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, output->gpio, output->bit, true);
+        // Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, false);
+        // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, true);
     }
 
     return output;
 }
 
 void DigitalOutputActivate(digital_output_t output){
-    Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->pin, true);
+    Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->bit, true);
 }
 
 void DigitalOutputDeactivate(digital_output_t output){
-    Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->pin, false);
+    Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->bit, false);
 }
 
 
 void DigitalOutputToggle(digital_output_t output){
-    Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, output->gpio, output->pin);
+    Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, output->gpio, output->bit);
     //Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT)
 }
 
