@@ -123,6 +123,7 @@ int main(void) {
 
     int divisor  = 0;
     bool current_state, last_state = false;
+    inline bool resultado;
 
     /*Estas son salidas*/
     /*configuro LED Rojo*/
@@ -158,10 +159,10 @@ int main(void) {
     Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT, false);
     Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT, true);
 
-    /*EStas son entradas*/
+    /*Estas son entradas*/
     /*configuro Tecla 1*/
     Chip_SCU_PinMuxSet(TEC_1_PORT, TEC_1_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | TEC_1_FUNC);
-    Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT, false);
+    //Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT, false);
 
     /*configuro Tecla 2*/
     Chip_SCU_PinMuxSet(TEC_2_PORT, TEC_2_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | TEC_2_FUNC);
@@ -180,10 +181,14 @@ int main(void) {
     digital_output_t led_dos  = DigitalOutputCreate(LED_2_GPIO, LED_2_BIT);
     digital_output_t led_tres = DigitalOutputCreate(LED_3_GPIO, LED_3_BIT);
 
+    digital_input_t tecla_1 = DigitalInputCreate(TEC_1_GPIO, TEC_1_BIT);
+
     while (true) {
         //La funcion siguiente muestra el estado de la tecla 1
         //Cada vez que paso ejecuta el codigo
-        if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT) == 0) {
+        //if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT) == 0) {
+        resultado = DigitalInputGetState(tecla_1);
+        if (resultado == 0) {
             DigitalOutputActivate(led_azul);
             // Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, true);
         } else {
