@@ -85,6 +85,8 @@ struct digital_input_s
     uint8_t gpio;
     uint8_t bit;
     bool allocated;
+    //bool last_state;
+    //bool inverted;
 };
 
 /* === Definiciones de variables privadas ================================== */
@@ -189,6 +191,17 @@ inline bool DigitalInputGetState(digital_input_t input) {
     return resultado;
 }
 // Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT) == 0
+
+
+inline bool DigitalInputHasActivated(digital_input_t input) {
+    if (input) {
+        if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit) == 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+}
 
 
 /* === Ciere de documentacion ============================================== */

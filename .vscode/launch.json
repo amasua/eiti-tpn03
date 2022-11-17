@@ -4,15 +4,13 @@
     // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
-        
         {
             "type": "cortex-debug",
             "request": "launch",
             "servertype": "openocd",
             "cwd": "${workspaceRoot}",
             "executable": "./build/bin/project.elf",
-            //"showDevDebugOutput": "raw",
+            "showDevDebugOutput": "raw",
             "name": "Debug (OpenOCD)",
             "configFiles": [
                 "${env:HOME}/proyectos/muju/externals/base/soc/lpc43xx/openocd/lpc4337_new.cfg"
