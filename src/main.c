@@ -214,22 +214,22 @@ int main(void) {
 
         // El siguiente bloque (2 if) muestran como al apretar la tecla 3 prende led 2
         // y al apretar tecla 4 apaga led 2
-        //if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_3_GPIO, TEC_3_BIT) == 0) {
-        //    DigitalOutputActivate(led_dos);
-            //Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT, true);
-        //}
-        //if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_4_GPIO, TEC_4_BIT) == 0) {
-        //    DigitalOutputDeactivate(led_dos);
-            //Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT, false);
-        //}
-
-        if (DigitalInputHasActivated(tecla_3)) {
+        if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_3_GPIO, TEC_3_BIT) == 0) {
             DigitalOutputActivate(led_dos);
+            Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT, true);
+        }
+        if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_4_GPIO, TEC_4_BIT) == 0) {
+            DigitalOutputDeactivate(led_dos);
+            Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT, false);
         }
 
-        if (DigitalInputHasActivated(tecla_4)) {
-            DigitalOutputDeactivate(led_dos);
-        }
+        //if (DigitalInputHasActivated(tecla_3)) {
+        //    DigitalOutputActivate(led_dos);
+        //}
+
+        //if (DigitalInputHasActivated(tecla_4)) {
+        //    DigitalOutputDeactivate(led_dos);
+        //}
 
         //Este bloque es un divisor para hacer parpadear el led 3
         //cuando divisor vale 5 lo prende, cambia a 0 y cuando vuelve a 5 otra vez lo apaga
