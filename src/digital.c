@@ -94,6 +94,7 @@ struct digital_input_s
 
 static struct digital_output_s instances[OUTPUT_INSTANCES] = {0};
 static struct digital_input_s in_instances[INPUT_INSTANCES] = {0};
+bool current_state;
 
 /* === Definiciones de variables publicas ================================== */
 
@@ -197,12 +198,15 @@ inline bool DigitalInputGetState(digital_input_t input) {
 
 inline bool DigitalInputHasChanged(digital_input_t input) {
     if (input) {
-        if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit) == 0) {
+        current_state = Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit) == 0 ;
+                
+        if ((current_state) && (!input->last_state)) {
             return TRUE;
         } else {
             return FALSE;
         }
     }
+    input->last_state = current_state;
 }
 
 

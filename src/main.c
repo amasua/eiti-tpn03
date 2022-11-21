@@ -43,7 +43,7 @@
 
 /* === Macros definitions ====================================================================== */
 
-#define CHIP_LPC43XX 
+//#define CHIP_LPC43XX 
 
 #define LED_R_PORT 2
 #define LED_R_PIN 0
@@ -193,10 +193,10 @@ int main(void) {
         //Cada vez que paso ejecuta el codigo
         //if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT) == 0) {
         resultado = DigitalInputGetState(tecla_1);
-        if (resultado == 0) {
-            DigitalOutputActivate(led_verde);
+        if (!DigitalInputGetState(tecla_1)) {
+            DigitalOutputActivate(led_azul);
         } else {
-            DigitalOutputDeactivate(led_verde);
+            DigitalOutputDeactivate(led_azul);
         }
 
         // detecto el momento exacto en que presiono la tecla y ejecuto
@@ -207,6 +207,12 @@ int main(void) {
             DigitalOutputToggle(led_uno);
         }
         last_state = current_state;
+
+        //tecla_2->last_state = current_state;
+        //if (DigitalInputHasChanged(tecla_2)) {
+        //    DigitalOutputToggle(led_uno);
+        //}
+        //current_state = tecla_2->last_state;
 
 
 
