@@ -124,6 +124,7 @@ digital_input_t DigitalInputAllocate(void)
     for (int index = 0; index < INPUT_INSTANCES; index++) {
         if (in_instances[index].allocated == false) {
             in_instances[index].allocated = true;
+            in_instances[index].last_state = true;
             input = &in_instances[index];
             break;
         }
@@ -132,6 +133,8 @@ digital_input_t DigitalInputAllocate(void)
 }
 
 /* === Definiciones de funciones publicas ================================== */
+
+// ------------------- OUTPUT ----------------------------------
 
 digital_output_t DigitalOutputCreate(uint8_t gpio, uint8_t bit)
 {
@@ -171,6 +174,8 @@ void DigitalOutputToggle(digital_output_t output) {
     }
     //Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT)
 }
+
+// ------------ INPUT -------------------------------
 
 digital_input_t DigitalInputCreate(uint8_t gpio, uint8_t bit)
 {
