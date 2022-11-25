@@ -146,8 +146,6 @@ digital_output_t DigitalOutputCreate(uint8_t gpio, uint8_t bit)
         output->bit = bit;
         Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->gpio, output->bit, false);
         Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, output->gpio, output->bit, true);
-        // Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, false);
-        // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, true);
     }
 
     return output;
@@ -168,11 +166,9 @@ void DigitalOutputDeactivate(digital_output_t output) {
 
 
 void DigitalOutputToggle(digital_output_t output) {
-
     if (output) {
         Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, output->gpio, output->bit);
     }
-    //Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT)
 }
 
 // ------------ INPUT -------------------------------
@@ -197,10 +193,7 @@ bool DigitalInputGetState(digital_input_t input) {
         state = (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit) == 0);
     }
     return state;
-    //return input->inverted ^ Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit);
 }
-// Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT) == 0
-//current_state = Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit) == 0 ;
 
 bool DigitalInputHasChanged(digital_input_t input) {
     bool state = DigitalInputGetState(input);
@@ -208,17 +201,6 @@ bool DigitalInputHasChanged(digital_input_t input) {
     input->last_state = state;
     return result;
 }
-    //if (input) {
-    //    current_state = Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit) == 0 ;
-                
-    //    if ((current_state) && (!input->last_state)) {
-    //        return TRUE;
-    //    } else {
-    //        return FALSE;
-    //    }
-    //}
-    //input->last_state = current_state;
-//}
 
 bool DigitalInputHasActivated(digital_input_t input) {
     bool state = DigitalInputGetState(input);

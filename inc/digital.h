@@ -64,7 +64,8 @@ void DigitalOutputToggle(digital_output_t output);
 digital_input_t DigitalInputCreate(uint8_t gpio, uint8_t bit);
 bool DigitalInputGetState(digital_input_t input);
 bool DigitalInputHasChanged(digital_input_t input);
-//bool DigitalInputHasActivated(digital_input_t input);
+bool DigitalInputHasActivated(digital_input_t input);
+bool DigitalInputHasDeactivated(digital_input_t input);
 
 /* === Ciere de documentacion ============================================== */
 #ifdef __cplusplus

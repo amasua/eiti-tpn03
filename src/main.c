@@ -43,8 +43,6 @@
 
 /* === Macros definitions ====================================================================== */
 
-#define CHIP_LPC43XX 
-
 #define LED_R_PORT 2
 #define LED_R_PIN 0
 #define LED_R_FUNC SCU_MODE_FUNC4
@@ -121,20 +119,8 @@
 
 int main(void) {
 
-    //digital_output_t led_azul;
-    //digital_output_t led_rojo;
-    //digital_output_t led_amarillo;
-    //digital_output_t led_verde;
-
-    //digital_input_t boton_prueba;
-    //digital_input_t boton_cambiar;
-    //digital_input_t boton_prender;
-    //digital_input_t boton_apagar;
-    
     int divisor  = 0;
-    //bool current_state, last_state = false;
-    //inline bool resultado;
-
+  
     /*Estas son salidas*/
     /*configuro LED Rojo*/
     /*configura el terminal y le asigna una fn de entrada y salida digital*/
@@ -146,46 +132,32 @@ int main(void) {
 
     /*configuro LED Verde*/
     Chip_SCU_PinMuxSet(LED_G_PORT, LED_G_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_G_FUNC);
-    Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_G_GPIO, LED_G_BIT, false);
-    Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_G_GPIO, LED_G_BIT, true);
-
+    
     /*configuro LED Azul*/
     Chip_SCU_PinMuxSet(LED_B_PORT, LED_B_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_B_FUNC);
-    // Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, false);
-    // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, true);
-
+   
     /*configuro LED 1*/
     Chip_SCU_PinMuxSet(LED_1_PORT, LED_1_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_1_FUNC);
-    //Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_1_GPIO, LED_1_BIT, false);
-    //Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_1_GPIO, LED_1_BIT, true);
-
+    
     /*configuro LED 2*/
     Chip_SCU_PinMuxSet(LED_2_PORT, LED_2_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_2_FUNC);
-    //Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT, false);
-    //Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT, true);
-
+    
     /*configuro LED 3*/
     Chip_SCU_PinMuxSet(LED_3_PORT, LED_3_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_3_FUNC);
-    //Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT, false);
-    //Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT, true);
-
+    
     /*Estas son entradas*/
     /*configuro Tecla 1*/
     Chip_SCU_PinMuxSet(TEC_1_PORT, TEC_1_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | TEC_1_FUNC);
-    //Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT, false);
-
+    
     /*configuro Tecla 2*/
     Chip_SCU_PinMuxSet(TEC_2_PORT, TEC_2_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | TEC_2_FUNC);
-    //Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, TEC_2_GPIO, TEC_2_BIT, false);
-
+    
     /*configuro Tecla 3*/
     Chip_SCU_PinMuxSet(TEC_3_PORT, TEC_3_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | TEC_3_FUNC);
-    //Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, TEC_3_GPIO, TEC_3_BIT, false);
-
+    
     /*configuro Tecla 4*/
     Chip_SCU_PinMuxSet(TEC_4_PORT, TEC_4_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | TEC_4_FUNC);
-    //Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, TEC_4_GPIO, TEC_4_BIT, false);
-
+    
     digital_output_t led_azul = DigitalOutputCreate(LED_B_GPIO, LED_B_BIT);
     //digital_output_t led_rojo = DigitalOutputCreate(LED_R_GPIO, LED_R_BIT);
     //digital_output_t led_verde = DigitalOutputCreate(LED_G_GPIO, LED_G_BIT);
@@ -222,43 +194,6 @@ int main(void) {
             DigitalOutputDeactivate(led_dos);
         }
 
-        // detecto el momento exacto en que presiono la tecla y ejecuto
-        // una vez el código dentro del if
-        // este patron de programación permite detectar cambios
-        //current_state = (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_2_GPIO, TEC_2_BIT) == 0);
-        //if ((current_state) && (!last_state)) {
-        //    DigitalOutputToggle(led_uno);
-        //}
-        //last_state = current_state;
-
-        //tecla_2->last_state = current_state;
-        //if (DigitalInputHasChanged(tecla_2)) {
-        //    DigitalOutputToggle(led_uno);
-        //}
-        //current_state = tecla_2->last_state;
-
-
-
-
-
-        // El siguiente bloque (2 if) muestran como al apretar la tecla 3 prende led 2
-        // y al apretar tecla 4 apaga led 2
-        //if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_3_GPIO, TEC_3_BIT) == 0) {
-        //    DigitalOutputActivate(led_dos);
-        //    Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT, true);
-        //}
-        //if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_4_GPIO, TEC_4_BIT) == 0) {
-        //    DigitalOutputDeactivate(led_dos);
-        //    Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT, false);
-        //}
-
-        //if (DigitalInputHasActivated(tecla_3)) {
-        //    DigitalOutputActivate(led_dos);
-        //}
-
-        //if (DigitalInputHasActivated(tecla_4)) {
-        //    DigitalOutputDeactivate(led_dos);
-        //}
 
         //Este bloque es un divisor para hacer parpadear el led 3
         //cuando divisor vale 5 lo prende, cambia a 0 y cuando vuelve a 5 otra vez lo apaga
@@ -266,8 +201,6 @@ int main(void) {
         if (divisor == 5) {
             divisor = 0;
             DigitalOutputToggle(led_tres);
-
-            //Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT);
         }
 
         // esto es un delay por los rebotes de teclas
