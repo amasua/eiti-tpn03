@@ -86,7 +86,7 @@ struct digital_input_s
     uint8_t bit;
     bool allocated;
     bool last_state;
-    //bool inverted;
+    bool inverted;
 };
 
 /* === Definiciones de variables privadas ================================== */
@@ -191,29 +191,48 @@ digital_input_t DigitalInputCreate(uint8_t gpio, uint8_t bit)
     return input;
 }
 
-inline bool DigitalInputGetState(digital_input_t input) {
-    bool resultado;
-    resultado = Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit);
-    return resultado;
+bool DigitalInputGetState(digital_input_t input) {
+    bool state = false;
+    if (input) {
+        state = (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit) == 0);
+    }
+    return state;
+    //return input->inverted ^ Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit);
 }
 // Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT) == 0
+//current_state = Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit) == 0 ;
 
-
-
-
-inline bool DigitalInputHasChanged(digital_input_t input) {
-    if (input) {
-        current_state = Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit) == 0 ;
+bool DigitalInputHasChanged(digital_input_t input) {
+    bool state = DigitalInputGetState(input);
+    bool result = state != input->last_state;
+    input->last_state = state;
+    return result;
+}
+    //if (input) {
+    //    current_state = Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->gpio, input->bit) == 0 ;
                 
-        if ((current_state) && (!input->last_state)) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
-    }
-    input->last_state = current_state;
+    //    if ((current_state) && (!input->last_state)) {
+    //        return TRUE;
+    //    } else {
+    //        return FALSE;
+    //    }
+    //}
+    //input->last_state = current_state;
+//}
+
+bool DigitalInputHasActivated(digital_input_t input) {
+    bool state = DigitalInputGetState(input);
+    bool result = state && !input->last_state;
+    input->last_state = state;
+    return result;    
 }
 
+bool DigitalInputHasDeactivated(digital_input_t input) {
+    bool state = DigitalInputGetState(input);
+    bool result = !state && input->last_state;
+    input->last_state = state;
+    return result;    
+}
 
 /* === Ciere de documentacion ============================================== */
 
