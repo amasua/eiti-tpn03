@@ -82,4 +82,4 @@ extern "C"
 
 /** @} End of module definition for doxygen */
 
-#endif /* TEMPLATE_H */
+#endif /* BSP_H */
