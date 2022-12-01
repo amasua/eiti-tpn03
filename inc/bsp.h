@@ -31,7 +31,7 @@
 
 #ifndef BSP_H
 #define BSP_H
-l
+
 /** \brief Brief description of the file
  **
  ** Full file description
@@ -41,6 +41,8 @@ l
  ** @{ */
 
 /* === Headers files inclusions ================================================================ */
+
+#include "digital.h"
 
 /* === Cabecera C++ ============================================================================ */
 
@@ -52,10 +54,25 @@ extern "C"
     /* === Public macros definitions =============================================================== */
 
     /* === Public data type declarations =========================================================== */
+    // defino la estructura en el .h porque quiero acceder a los miembros de la misma
+    // no hay problema porque esta definida como constante asi que no se puede modificar
 
-    /* === Public variable declarations ============================================================ */
+    typedef struct board_s {
+        digital_output_t led_azul;
+        digital_output_t led_rojo;
+        digital_output_t led_amarillo;
+        digital_output_t led_verde;
+        
+        digital_input_t boton_prueba;
+        digital_input_t boton_cambiar;
+        digital_input_t boton_prender;
+        digital_input_t boton_apagar;
+    } const * board_t;
+
+        /* === Public variable declarations ============================================================ */
 
     /* === Public function declarations ============================================================ */
+    board_t BoardCreate(void);
 
     /* === End of documentation ==================================================================== */
 

@@ -98,7 +98,6 @@ bool current_state;
 
 /* === Definiciones de variables publicas ================================== */
 
-
 /* === Declaraciones de funciones privadas ================================= */
 
 /* === Definiciones de funciones privadas ================================== */
